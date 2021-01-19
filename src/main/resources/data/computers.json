@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "MacBook Pro 15.4 inch"
+  },
+  {
+    "id": 2,
+    "name": "CM-2a"
+  },
+  {
+    "id": 3,
+    "name": "CM-200"
+  },
+  {
+    "id": 4,
+    "name": "CM-5e"
+  },
+  {
+    "id": 5,
+    "name": "CM-5",
+    "introduced": "1991-01-01"
+  },
+  {
+    "id": 6,
+    "name": "MacBook Pro",
+    "introduced": "2006-01-10"
+  },
+  {
+    "id": 7,
+    "name": "Apple IIe"
+  },
+  {
+    "id": 8,
+    "name": "Apple IIee",
+    "introduced": "2006-01-10",
+    "discontinued": "2010-01-10"
+  }
+]
