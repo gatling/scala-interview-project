@@ -19,6 +19,7 @@ class ComputerDatabaseApi[F[_]: Effect: ContextShift](
     Endpoint.toService(
       Bootstrap
         .serve[Application.Json](computersApi.endpoints)
+        .serve[Application.Json](computersApi.postEndPoint)
         .compile
     )
 }
