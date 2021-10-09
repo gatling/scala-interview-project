@@ -12,4 +12,7 @@ class ComputerHandler[F[_]](computerRepository: ComputerRepository[F])(implicit 
     computerRepository
       .fetchAll()
       .map(Ok)
+
+  def addComputer(c: Computer): F[Output[Unit]] =
+    computerRepository.insert(c).map(Ok)
 }

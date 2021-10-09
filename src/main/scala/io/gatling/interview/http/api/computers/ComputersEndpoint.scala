@@ -15,7 +15,7 @@ class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) exten
   }
 
   private val addComputer: Endpoint[F, Unit] = post("computers" :: jsonBody[Computer]) { c: Computer =>
-    Ok(())
+    computerHandler.addComputer(c)
   }
 
   private[api] val endpoints = computers
