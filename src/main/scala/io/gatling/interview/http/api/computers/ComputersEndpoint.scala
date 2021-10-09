@@ -7,6 +7,7 @@ import cats.effect.Effect
 import io.finch._
 import io.finch.circe._
 import io.gatling.interview.model.Computer._
+import io.gatling.interview.model.ComputerCreationRequest
 
 class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) extends Endpoint.Module[F] {
 
@@ -14,10 +15,15 @@ class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) exten
     computerHandler.queryComputers()
   }
 
-  private val addComputer: Endpoint[F, Unit] = post("computers" :: jsonBody[Computer]) { c: Computer =>
+  private val addComputer: Endpoint[F, Unit] = post("computers" :: jsonBody[ComputerCreationRequest]) { c: ComputerCreationRequest =>
     computerHandler.addComputer(c)
   }
 
+//   private val fetchCompany: Endpoint[F, String] = get("hello" :: path[String]) { (expr1: String) =>
+//   Ok(s"Passed as path: $expr1" )
+// }
+
   private[api] val endpoints = computers
   private[api] val postEndPoint = addComputer
+//  private[api] val getCompany = fetchCompany
 }

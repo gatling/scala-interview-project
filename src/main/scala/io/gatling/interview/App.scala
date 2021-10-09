@@ -15,6 +15,8 @@ import pureconfig.ConfigSource
 import pureconfig.module.catseffect.syntax.CatsEffectConfigSource
 
 import java.util.concurrent.{ ExecutorService, Executors }
+import io.gatling.interview.repository.CompanyRepository
+import io.gatling.interview.handler.CompanyHandler
 
 final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
 
@@ -41,7 +43,9 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
       appResources <- appResources(config)
       computerRepository = new ComputerRepository[F]()
       computerHandler = new ComputerHandler[F](computerRepository)
-      api = new ComputerDatabaseApi[F](computerHandler)
+      companyRepository = new CompanyRepository[F]()
+      companyHandler = new CompanyHandler[F](companyRepository)
+      api = new ComputerDatabaseApi[F](computerHandler, companyHandler)
       server <- server(
         api.service,
         config.server,

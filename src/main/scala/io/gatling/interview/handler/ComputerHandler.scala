@@ -2,6 +2,7 @@ package io.gatling.interview.handler
 
 import io.gatling.interview.model.Computer
 import io.gatling.interview.repository.ComputerRepository
+import io.gatling.interview.model.ComputerCreationRequest
 
 import cats.effect.Sync
 import cats.implicits._
@@ -13,6 +14,6 @@ class ComputerHandler[F[_]](computerRepository: ComputerRepository[F])(implicit 
       .fetchAll()
       .map(Ok)
 
-  def addComputer(c: Computer): F[Output[Unit]] =
+  def addComputer(c: ComputerCreationRequest): F[Output[Unit]] =
     computerRepository.insert(c).map(Ok)
 }

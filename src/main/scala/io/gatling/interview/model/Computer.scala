@@ -7,7 +7,7 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
 
 object Computer {
-  implicit val decoder: Decoder[Computer] = deriveDecoder
+  implicit val decoder: Decoder[ComputerCreationRequest] = deriveDecoder
 
   implicit val encoder: Encoder[Computer] = new Encoder[Computer] {
     final def apply(c: Computer): Json = Json.obj(
@@ -29,8 +29,16 @@ object Computer {
   }
 }
 
+final case class ComputerCreationRequest(
+    companyId: Long,
+    name: String,
+    introduced: Option[LocalDate],
+    discontinued: Option[LocalDate]
+)
+
 final case class Computer(
     id: Long,
+    companyId: Long,
     name: String,
     introduced: Option[LocalDate],
     discontinued: Option[LocalDate]
