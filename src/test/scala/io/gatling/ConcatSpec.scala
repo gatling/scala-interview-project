@@ -5,13 +5,8 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class ConcatSpec extends AnyWordSpec with Matchers {
   def concat(opt1: Option[String], opt2: Option[String]): Option[String] =
-    opt1 match {
-    case None => None
-    case Some(opt1Value) => opt2 match {
-      case None => None
-      case Some(opt2Value) => Some(opt1Value concat opt2Value)
-    }
-  }
+    for {i <- opt1
+      j <- opt2} yield (i  concat j)
 
   "concat function" should {
     "concat both content when both exist" in {
