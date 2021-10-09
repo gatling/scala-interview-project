@@ -7,7 +7,7 @@ import io.circe.generic.semiauto._
 
 object Computer {
   implicit val decoder: Decoder[Computer] = deriveDecoder
-  implicit val encoder: Encoder[Computer] = deriveEncoder
+  implicit val encoder: Encoder[Computer] = deriveEncoder[Computer].mapJsonObject{json => json.filter{case (key,value) => !value.isNull}}
 }
 
 final case class Computer(
