@@ -26,6 +26,7 @@ class ComputerDatabaseApi[F[_]: Effect: ContextShift](
         .serve[Application.Json](computersApi.postEndPoint)
         .serve[Application.Json](companyApi.getCompany)
         .serve[Application.Json](computersApi.fetchComputer)
+        .serve[Application.Json](computersApi.fetchCompanyFromComputer)
         .compile
     )
 }

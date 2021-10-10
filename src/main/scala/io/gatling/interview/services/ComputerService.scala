@@ -8,6 +8,7 @@ import cats.implicits._
 
 import scala.util.Random
 import io.gatling.interview.repository.CompanyRepository
+import io.gatling.interview.model.Company
 
 class ComputerService[F[_]](computerRepository: ComputerRepository[F], companyRepository: CompanyRepository[F])(implicit F: Sync[F]) {
   def fetchAll(): F[Seq[Computer]] = 
@@ -31,4 +32,12 @@ class ComputerService[F[_]](computerRepository: ComputerRepository[F], companyRe
   def fetch(id: Long): F[Option[Computer]] =
     computerRepository.fetch(id)
 
+  def fetchCompany(computerId: Long): F[Option[Company]] = {
+    for {
+      computer <- computerRepository.fetch(computerId).map(c => c.get)
+      companies <- companyRepository.fetchAll()
+    }
+    yield companies.find(_.id == computer.companyId)
+  }
 }
+

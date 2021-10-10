@@ -8,6 +8,7 @@ import io.finch._
 import io.finch.circe._
 import io.gatling.interview.model.Computer._
 import io.gatling.interview.model.ComputerCreationRequest
+import io.gatling.interview.model.Company
 
 class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) extends Endpoint.Module[F] {
 
@@ -23,7 +24,12 @@ class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) exten
     computerHandler.getComputer(id)
   }
 
+  private val fetchCompany: Endpoint[F, Option[Company]] = get("computers" :: path[Long] :: "company") { (id: Long) =>
+    computerHandler.getCompanyFromComputer(id)
+  }
+
   private[api] val endpoints = computers
   private[api] val postEndPoint = addComputer
   private[api] val fetchComputer = fetch
+  private[api] val fetchCompanyFromComputer = fetchCompany
 }

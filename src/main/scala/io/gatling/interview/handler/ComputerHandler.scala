@@ -7,6 +7,7 @@ import cats.effect.Sync
 import cats.implicits._
 import io.finch.{ Ok, Output }
 import io.gatling.interview.services.ComputerService
+import io.gatling.interview.model.Company
 
 class ComputerHandler[F[_]](computerService: ComputerService[F])(implicit F: Sync[F]) {
   def queryComputers(): F[Output[Seq[Computer]]] =
@@ -20,4 +21,7 @@ class ComputerHandler[F[_]](computerService: ComputerService[F])(implicit F: Syn
   def getComputer(id: Long): F[Output[Option[Computer]]] =
     computerService
       .fetch(id).map(Ok)
+
+  def getCompanyFromComputer(id: Long): F[Output[Option[Company]]] =
+    computerService.fetchCompany(id).map(Ok)
 }
