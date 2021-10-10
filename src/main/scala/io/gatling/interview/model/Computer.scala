@@ -9,24 +9,14 @@ import java.time.temporal.ChronoUnit.DAYS
 object Computer {
   implicit val decoder: Decoder[ComputerCreationRequest] = deriveDecoder
 
-  implicit val encoder: Encoder[Computer] = new Encoder[Computer] {
-    final def apply(c: Computer): Json = Json.obj(
-      ("id", Json.fromLong(c.id)),
-      ("name", Json.fromString(c.name)),
-      ("introduced", c.introduced match {
-        case Some(i) => Json.fromString(i.toString())
-        case None => Json.Null
-      }),
-      ("discontinued", c.discontinued match {
-        case Some(d) => Json.fromString(d.toString())
-        case None => Json.Null
-      }),
-      ("lifetime", c.lifetime match {
-        case Some(l) => Json.fromString(l.toString())
-        case None => Json.Null
-      }),
-    ).mapObject(json => json.filter{case (key,value) => !value.isNull})
-  }
+  implicit val encoder: Encoder[Computer] = (c: Computer) => Json.obj(
+    ("id", Json.fromLong(c.id)),
+    ("companyId", Json.fromLong(c.companyId)),
+    ("name", Json.fromString(c.name)),
+    ("introduced", c.introduced.map(i => Json.fromString(i.toString)).getOrElse(Json.Null)),
+    ("discontinued", c.discontinued.map(d => Json.fromString(d.toString)).getOrElse(Json.Null)),
+    ("lifetime", c.lifetime.map(l => Json.fromString(l.toString)).getOrElse(Json.Null)),
+  ).mapObject(json => json.filter { case (_, value) => !value.isNull })
 }
 
 final case class ComputerCreationRequest(
@@ -47,6 +37,6 @@ final case class Computer(
     i <- introduced
     d <- discontinued
   }
-  yield (DAYS.between(i, d))
+  yield DAYS.between(i, d)
 }
 
