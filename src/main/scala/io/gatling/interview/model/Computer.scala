@@ -15,6 +15,8 @@ object Computer {
     ("discontinued", c.discontinued.map(d => Json.fromString(d.toString)).getOrElse(Json.Null)),
     ("lifetime", c.lifetime.map(l => Json.fromString(l.toString)).getOrElse(Json.Null)),
   ).mapObject(json => json.filter { case (_, value) => !value.isNull })
+
+  implicit val decoder: Decoder[Computer] = deriveDecoder[Computer]
 }
 
 object ComputerCreationRequest {
