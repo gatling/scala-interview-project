@@ -43,9 +43,9 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
     for {
       appResources <- appResources(config)
       computerRepository = new ComputerRepository[F]()
-      computerService = new ComputerService[F](computerRepository)
-      computerHandler = new ComputerHandler[F](computerService)
       companyRepository = new CompanyRepository[F]()
+      computerService = new ComputerService[F](computerRepository, companyRepository)
+      computerHandler = new ComputerHandler[F](computerService)
       companyHandler = new CompanyHandler[F](companyRepository)
       api = new ComputerDatabaseApi[F](computerHandler, companyHandler)
       server <- server(

@@ -7,15 +7,24 @@ import cats.effect.Sync
 import cats.implicits._
 
 import scala.util.Random
+import io.gatling.interview.repository.CompanyRepository
 
-class ComputerService[F[_]](computerRepository: ComputerRepository[F])(implicit F: Sync[F]) {
+class ComputerService[F[_]](computerRepository: ComputerRepository[F], companyRepository: CompanyRepository[F])(implicit F: Sync[F]) {
   def fetchAll(): F[Seq[Computer]] = 
     computerRepository.fetchAll()
   
-
-  def insert(c: ComputerCreationRequest): F[Unit] = F.pure(
-    // Simulate autogen of id in database.
-    // If id is generated application side, a new service layer could be a good idea.
-    computerRepository.insert(Computer(Random.nextLong(), c.companyId, c.name, c.introduced, c.discontinued))
-  )
+  def insert(c: ComputerCreationRequest): F[Unit] = {
+    for {
+      companies <- companyRepository.fetchAll()
+      id <- {
+        if (companies.map(_.id).contains(c.companyId)) {
+          computerRepository.fetchAll().map(_.map(_.id).max + 1)
+        } else {
+          F.raiseError(new IllegalArgumentException("Unknown company"))
+        }
+      }
+      _ <- computerRepository.insert(Computer(id, c.companyId, c.name, c.introduced, c.discontinued))
+    }
+    yield ()
+  }
 }
