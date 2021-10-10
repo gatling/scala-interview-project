@@ -7,8 +7,6 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.DAYS
 
 object Computer {
-  implicit val decoder: Decoder[ComputerCreationRequest] = deriveDecoder
-
   implicit val encoder: Encoder[Computer] = (c: Computer) => Json.obj(
     ("id", Json.fromLong(c.id)),
     ("companyId", Json.fromLong(c.companyId)),
@@ -17,6 +15,10 @@ object Computer {
     ("discontinued", c.discontinued.map(d => Json.fromString(d.toString)).getOrElse(Json.Null)),
     ("lifetime", c.lifetime.map(l => Json.fromString(l.toString)).getOrElse(Json.Null)),
   ).mapObject(json => json.filter { case (_, value) => !value.isNull })
+}
+
+object ComputerCreationRequest {
+  implicit val decoder: Decoder[ComputerCreationRequest] = deriveDecoder
 }
 
 final case class ComputerCreationRequest(
