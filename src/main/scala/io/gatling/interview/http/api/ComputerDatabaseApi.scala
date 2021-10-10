@@ -19,11 +19,13 @@ class ComputerDatabaseApi[F[_]: Effect: ContextShift](
   private val computersApi: ComputersEndpoint[F] = new ComputersEndpoint[F](computerHandler)
   private val companyApi: CompanyEndpoint[F] = new CompanyEndpoint[F](companyHandler)
   val service: Service[Request, Response] =
+//    computersApi.endpoints.fold(Bootstrap)((c, endpoint) => c.serve)
     Endpoint.toService(
       Bootstrap
         .serve[Application.Json](computersApi.endpoints)
         .serve[Application.Json](computersApi.postEndPoint)
         .serve[Application.Json](companyApi.getCompany)
+        .serve[Application.Json](computersApi.fetchComputer)
         .compile
     )
 }

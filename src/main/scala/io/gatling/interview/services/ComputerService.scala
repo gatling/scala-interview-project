@@ -27,4 +27,8 @@ class ComputerService[F[_]](computerRepository: ComputerRepository[F], companyRe
     }
     yield ()
   }
+
+  def fetch(id: Long): F[Option[Computer]] =
+    computerRepository.fetch(id)
+
 }

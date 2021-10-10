@@ -16,6 +16,10 @@ class ComputerRepository[F[_]](implicit F: Sync[F]) {
   def insert(c: Computer): F[Unit] = F.pure(
     ComputerRepository.dbComputer =  ComputerRepository.dbComputer :+ c
   )
+
+  def fetch(id: Long): F[Option[Computer]] = F.pure(
+    ComputerRepository.dbComputer.find(_.id == id)
+  )
 }
 
 object ComputerRepository {

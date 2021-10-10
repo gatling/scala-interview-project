@@ -19,11 +19,11 @@ class ComputersEndpoint[F[_]: Effect](computerHandler: ComputerHandler[F]) exten
     computerHandler.addComputer(c)
   }
 
-//   private val fetchCompany: Endpoint[F, String] = get("hello" :: path[String]) { (expr1: String) =>
-//   Ok(s"Passed as path: $expr1" )
-// }
+  private val fetch: Endpoint[F, Option[Computer]] = get("computers" :: path[Long]) { (id: Long) =>
+    computerHandler.getComputer(id)
+  }
 
   private[api] val endpoints = computers
   private[api] val postEndPoint = addComputer
-//  private[api] val getCompany = fetchCompany
+  private[api] val fetchComputer = fetch
 }

@@ -16,4 +16,8 @@ class ComputerHandler[F[_]](computerService: ComputerService[F])(implicit F: Syn
 
   def addComputer(c: ComputerCreationRequest): F[Output[Unit]] =
     computerService.insert(c).map(Ok)
+
+  def getComputer(id: Long): F[Output[Option[Computer]]] =
+    computerService
+      .fetch(id).map(Ok)
 }
