@@ -13,10 +13,8 @@ class ComputerRepository[F[_]](implicit F: Sync[F]) {
     ComputerRepository.dbComputer
   )
 
-  def insert(c: ComputerCreationRequest): F[Unit] = F.pure(
-    // Simulate autogen of id in database.
-    // If id is generated application side, a new service layer could be a good idea.
-    ComputerRepository.dbComputer =  ComputerRepository.dbComputer :+ Computer(Random.nextLong(), c.companyId, c.name, c.introduced, c.discontinued)
+  def insert(c: Computer): F[Unit] = F.pure(
+    ComputerRepository.dbComputer =  ComputerRepository.dbComputer :+ c
   )
 }
 

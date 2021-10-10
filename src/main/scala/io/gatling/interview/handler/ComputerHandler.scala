@@ -1,19 +1,19 @@
 package io.gatling.interview.handler
 
 import io.gatling.interview.model.Computer
-import io.gatling.interview.repository.ComputerRepository
 import io.gatling.interview.model.ComputerCreationRequest
 
 import cats.effect.Sync
 import cats.implicits._
 import io.finch.{ Ok, Output }
+import io.gatling.interview.services.ComputerService
 
-class ComputerHandler[F[_]](computerRepository: ComputerRepository[F])(implicit F: Sync[F]) {
+class ComputerHandler[F[_]](computerService: ComputerService[F])(implicit F: Sync[F]) {
   def queryComputers(): F[Output[Seq[Computer]]] =
-    computerRepository
+    computerService
       .fetchAll()
       .map(Ok)
 
   def addComputer(c: ComputerCreationRequest): F[Output[Unit]] =
-    computerRepository.insert(c).map(Ok)
+    computerService.insert(c).map(Ok)
 }
