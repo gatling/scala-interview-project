@@ -103,5 +103,26 @@
     "introduced" : "2020-01-01",
     "discontinued" : "2021-01-01",
     "companyId" : 1
+  },
+  {
+    "id" : 16,
+    "name" : "cpt1",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : null
+  },
+  {
+    "id" : 17,
+    "name" : "cpt2",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : null
+  },
+  {
+    "id" : 18,
+    "name" : "cpt3",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : null
   }
 ]

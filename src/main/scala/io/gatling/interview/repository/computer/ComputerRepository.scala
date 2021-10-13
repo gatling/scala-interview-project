@@ -4,6 +4,7 @@ import cats.effect.Sync
 import io.circe.parser._
 import io.circe.syntax.EncoderOps
 import io.gatling.interview.dto.computer.ComputerPrinterDTO
+import io.gatling.interview.model.company.Company
 import io.gatling.interview.model.computer.Computer
 
 import java.nio.file.{Files, Paths}
@@ -11,17 +12,22 @@ import java.nio.file.{Files, Paths}
 class ComputerRepository[F[_]](implicit F: Sync[F]) {
 
 
-  def findAll(): F[Seq[ComputerPrinterDTO]] = F.pure {
+  def findAll(companies: Seq[Company]): F[Seq[ComputerPrinterDTO]] = F.pure {
     //Simulate  find * in db
     val listOfAllComputers = loadJsonFileReturnSeqOfComputers
     //Simulate where clause
     val filteredComputers = listOfAllComputers.filter(_.introduced.isDefined).filter(_.discontinued.isDefined)
-
     // Convert "Entity" to "DTO" to print extended values
     var list :Seq[ComputerPrinterDTO]=Seq.empty[ComputerPrinterDTO]
       for(f <- filteredComputers){
-      val computer = Computer.computerMapper(f)
-       list= list:+computer
+        if(f.companyId.isDefined){
+          val company = companies.filter((_.id == f.companyId.get)).head
+          val computer = Computer.computerMapper(f,Some(company.name))
+          list= list:+computer
+        }else{
+          val computer = Computer.computerMapper(f,None)
+          list= list:+computer
+        }
     }
     list
   }

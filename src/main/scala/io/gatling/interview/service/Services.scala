@@ -9,7 +9,10 @@ import io.gatling.interview.repository.computer.ComputerRepository
 
 class Services[F[_]](computerRepository: ComputerRepository[F], companyRepository: CompanyRepository[F])(implicit F: Sync[F]) {
 
-  def findAll() = computerRepository.findAll()
+  def findAll() = {
+    val companies = companyRepository.loadJsonFileReturnSeqOfCompany
+    computerRepository.findAll(companies)
+  }
 
 
   def insert(c: ComputerCreaterDTO): F[Unit] = F.pure {

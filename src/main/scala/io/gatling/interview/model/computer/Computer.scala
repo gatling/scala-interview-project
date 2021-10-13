@@ -10,13 +10,13 @@ object Computer {
   implicit val decoder: Decoder[Computer] = deriveDecoder
   implicit val simpleEncoder: Encoder[Computer] = deriveEncoder
 
-  def computerMapper = (computer: Computer) =>
+  def computerMapper = (computer: Computer, companyName: Option[String]) =>
     ComputerPrinterDTO(
       computer.id,
       computer.name,
       computer.introduced,
       computer.discontinued,
-      computer.companyId
+      companyName
     )
 }
 

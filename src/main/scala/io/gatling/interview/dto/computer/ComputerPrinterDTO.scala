@@ -18,11 +18,11 @@ object ComputerPrinterDTO {
 }
 
 final case class ComputerPrinterDTO(
-                           id: Long,
-                           name: String,
-                           introduced: Option[LocalDate],
-                           discontinued: Option[LocalDate],
-                           companyId: Option[Long]
+                                     id: Long,
+                                     name: String,
+                                     introduced: Option[LocalDate],
+                                     discontinued: Option[LocalDate],
+                                     companyName: Option[String]
                          ) {
   val lifetime: Option[Long] = {
     if (introduced.isDefined && discontinued.isDefined) {
