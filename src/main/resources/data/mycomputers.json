@@ -1,0 +1,107 @@
+[
+  {
+    "id" : 1,
+    "name" : "MacBook Pro 15.4 inch",
+    "introduced" : null,
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 2,
+    "name" : "CM-2a",
+    "introduced" : null,
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 3,
+    "name" : "CM-200",
+    "introduced" : null,
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 4,
+    "name" : "CM-5e",
+    "introduced" : null,
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 5,
+    "name" : "CM-5",
+    "introduced" : "1991-01-01",
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 6,
+    "name" : "MacBook Pro",
+    "introduced" : "2006-01-10",
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 7,
+    "name" : "Apple IIe",
+    "introduced" : null,
+    "discontinued" : null,
+    "companyId" : null
+  },
+  {
+    "id" : 8,
+    "name" : "Apple IIee",
+    "introduced" : "2006-01-10",
+    "discontinued" : "2010-01-10",
+    "companyId" : null
+  },
+  {
+    "id" : 9,
+    "name" : "HP_1bis",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 1
+  },
+  {
+    "id" : 10,
+    "name" : "HP_2",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 1
+  },
+  {
+    "id" : 11,
+    "name" : "HP_3",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 1
+  },
+  {
+    "id" : 12,
+    "name" : "Apple_1",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 2
+  },
+  {
+    "id" : 13,
+    "name" : "Apple_2",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 2
+  },
+  {
+    "id" : 14,
+    "name" : "Apple_3",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 2
+  },
+  {
+    "id" : 15,
+    "name" : "HP_2021",
+    "introduced" : "2020-01-01",
+    "discontinued" : "2021-01-01",
+    "companyId" : 1
+  }
+]

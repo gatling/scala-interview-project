@@ -1,22 +1,24 @@
 package io.gatling.interview
 
-import io.gatling.interview.handler.ComputerHandler
-import io.gatling.interview.http.api.ComputerDatabaseApi
-import io.gatling.interview.repository.ComputerRepository
-
 import cats.effect._
 import cats.implicits._
-import com.twitter.finagle.http.{ Request, Response }
-import com.twitter.finagle.{ Http, ListeningServer, Service }
+import com.twitter.finagle.http.{Request, Response}
+import com.twitter.finagle.{Http, ListeningServer, Service}
 import com.twitter.util.Future
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import io.finch.ToAsync
+import io.gatling.interview.handler.company.CompanyHandler
+import io.gatling.interview.handler.computer.ComputerHandler
+import io.gatling.interview.http.api.ComputerDatabaseApi
+import io.gatling.interview.repository.company.CompanyRepository
+import io.gatling.interview.repository.computer.ComputerRepository
+import io.gatling.interview.service.Services
 import pureconfig.ConfigSource
 import pureconfig.module.catseffect.syntax.CatsEffectConfigSource
 
-import java.util.concurrent.{ ExecutorService, Executors }
+import java.util.concurrent.{ExecutorService, Executors}
 
-final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
+final class App[F[_] : ConcurrentEffect : ContextShift : Timer] {
 
   private val logger = Slf4jLogger.getLogger[F]
   private val configSource = ConfigSource.default.at("app")
@@ -40,8 +42,11 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
     for {
       appResources <- appResources(config)
       computerRepository = new ComputerRepository[F]()
-      computerHandler = new ComputerHandler[F](computerRepository)
-      api = new ComputerDatabaseApi[F](computerHandler)
+      companyRepository = new CompanyRepository[F]()
+      services = new Services[F](computerRepository, companyRepository)
+      computerHandler = new ComputerHandler[F](services)
+      companyHandler = new CompanyHandler[F](services)
+      api = new ComputerDatabaseApi[F](computerHandler, companyHandler)
       server <- server(
         api.service,
         config.server,
@@ -50,10 +55,10 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
     } yield server
 
   private def server(
-      service: Service[Request, Response],
-      config: Config.Server,
-      serverExecutorService: ExecutorService
-  ): Resource[F, ListeningServer] =
+                      service: Service[Request, Response],
+                      config: Config.Server,
+                      serverExecutorService: ExecutorService
+                    ): Resource[F, ListeningServer] =
     Resource.make(
       ConcurrentEffect[F].delay {
         Http.server
