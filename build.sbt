@@ -12,6 +12,13 @@ lazy val circeVersion = "0.13.0"
 lazy val finchVersion = "0.32.1"
 lazy val pureconfigVersion = "0.14.0"
 
+val disabledWarts = Set(
+  Wart.Any, // cats
+  Wart.NonUnitStatements // test assertions
+)
+
+wartremoverWarnings ++= Warts.unsafe.filterNot(disabledWarts.contains)
+
 scalacOptions ++= Seq(
   "-encoding",
   "UTF-8", // source files are in UTF-8
