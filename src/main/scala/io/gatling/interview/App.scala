@@ -28,7 +28,7 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
         _ <- setup(config).use { server =>
           for {
             _ <- logger.info(
-              s"Server started and bound to: ${server.boundAddress}"
+              s"Server started and bound to: ${server.boundAddress.toString}"
             )
             _ <- ConcurrentEffect[F].never.as(())
           } yield ()
@@ -59,7 +59,7 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
         Http.server
           .withStreaming(enabled = true)
           .withExecutionOffloaded(serverExecutorService)
-          .serve(s":${config.port}", service)
+          .serve(s":${config.port.toString}", service)
       }
     )(s => Sync[F].suspend(implicitly[ToAsync[Future, F]].apply(s.close())))
 
