@@ -18,7 +18,9 @@ concat(None, Some("bar"))        // None
 concat(None, None)               // None
 ```
 
-You can solve this in the file [`src/test/scala/io/gatling/ConcatSpec.scala`](./src/test/io/gatling/ConcatSpec.scala), which can be easily run with IntelliJ, or with Scala Metals on your favorite editor (ie: https://scalameta.org/metals/docs/editors/vscode/)
+You can solve this in the file [`src/test/scala/io/gatling/ConcatSpec.scala`](./src/test/io/gatling/ConcatSpec.scala),
+which can be easily run with IntelliJ, or with Scala Metals on your favorite editor
+(e.g. https://scalameta.org/metals/docs/editors/vscode/).
 
 Or in your console:
 
@@ -26,12 +28,12 @@ Or in your console:
 ./sbtx "testOnly io.gatling.ConcatSpec"
 ```
 
-## Computer Database API
+## Computer Database CLI
 
-The goal of this part is to create a CRUD API of computers (just like our demo website: https://computer-database.gatling.io/computers).
+The goal of this part is to create a command line app that stores and reads data about computers in a file (it's
+inspired by our demo website: https://computer-database.gatling.io/computers).
 
 The major libraries you'll need to use are:
-- [finch](https://finagle.github.io/finch/)
 - [cats effect](https://typelevel.org/cats-effect/docs/2.x/getting-started)
 - [circe](https://circe.github.io/circe/)
 
@@ -43,20 +45,18 @@ A computer is represented by:
 - an optional introduced date
 - an optional discontinued date
 
+Data is stored in the [computers.json](computers.json) file at the root of the project directory. 
+
 ### Run the project
 
 ```console
-./sbtx run
+./sbtx run list
 ```
 
-There is already a first endpoint accessible at http://localhost:8086/computers
+This will execute the `list` command, which lists all computers in the file.
 
 ### Specifications
 
-The API is not connected to a database, all read and insert are mocked.
-
-- add an API to insert a computer
-- modify the json output of a computer:
-  * it should not display null introduced or discontinued dates
-  * it should display the lifetime of a computer (period between discontinued and introduced)
-- link every computer to a company (a company can manufacture multiple computers)
+Add two commands:
+- a command to display a single computer (with the ID as parameter)
+- a command to add a computer to the file (with the name and optional dates as parameters)
