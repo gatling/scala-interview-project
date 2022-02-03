@@ -11,6 +11,8 @@ lazy val circeVersion = "0.14.1"
 lazy val finchVersion = "0.32.1"
 lazy val pureconfigVersion = "0.14.1"
 
+run / fork := true
+
 val disabledWarts = Set(
   Wart.Any, // cats
   Wart.NonUnitStatements // test assertions
@@ -31,20 +33,12 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-effect" % "2.5.4",
   "org.typelevel" %% "kittens"     % "2.3.2",
   "org.typelevel" %% "mouse"       % "1.0.9",
-  // Finch / Scalatags
-  "com.github.finagle" %% "finchx-core"    % finchVersion,
-  "com.github.finagle" %% "finchx-circe"   % finchVersion,
-  "com.github.finagle" %% "finchx-refined" % finchVersion,
-  "com.lihaoyi"        %% "scalatags"      % "0.11.1",
   // Circe
   "io.circe" %% "circe-core"    % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser"  % circeVersion,
   "io.circe" %% "circe-refined" % circeVersion,
   "io.circe" %% "circe-fs2"     % "0.14.0",
-  // Pureconfig
-  "com.github.pureconfig" %% "pureconfig"             % pureconfigVersion,
-  "com.github.pureconfig" %% "pureconfig-cats-effect" % pureconfigVersion,
   // Logging
   "io.chrisdavenport" %% "log4cats-slf4j"  % "1.1.1",
   "ch.qos.logback"     % "logback-classic" % logbackClassicVersion % Runtime,

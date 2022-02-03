@@ -1,15 +1,32 @@
 package io.gatling.interview.repository
 
 import io.gatling.interview.model.Computer
+import cats.effect.{Blocker, ContextShift, Sync}
+import io.gatling.interview.repository.ComputerRepository.{ComputersFileCharset, ComputersFilePath}
 
-import cats.effect.Sync
+import java.nio.charset.{Charset, StandardCharsets}
+import java.nio.file.{Files, Path, Paths}
 
-import java.time.LocalDate
+import io.circe.parser.decode
+import cats.implicits._
 
-class ComputerRepository[F[_]](implicit F: Sync[F]) {
-  def fetchAll(): F[Seq[Computer]] = F.pure(
-    Seq(Computer(1L, "Laptop", Some(LocalDate.of(1970, 10, 25)), None), Computer(2L, "toto", Some(LocalDate.of(1989, 10, 5)), Some(LocalDate.of(1998, 5, 15))))
-  )
+object ComputerRepository {
+  private val ComputersFilePath: Path = Paths.get("computers.json")
+  private val ComputersFileCharset: Charset = StandardCharsets.UTF_8
+}
 
-  def insert(): F[Unit] = F.unit
+class ComputerRepository[F[_] : ContextShift](blocker: Blocker)(implicit F: Sync[F]) {
+
+  def fetchAll(): F[Seq[Computer]] =
+    for {
+      json <- blocker.blockOn(F.delay {
+        val jsonBytes = Files.readAllBytes(ComputersFilePath)
+        new String(jsonBytes, ComputersFileCharset)
+      })
+      computers <- F.fromEither(decode[Seq[Computer]](json))
+    } yield computers
+
+  def fetch(id: Long): F[Computer] = ???
+
+  def insert(): F[Unit] = ???
 }

@@ -1,78 +1,30 @@
 package io.gatling.interview
 
 import io.gatling.interview.handler.ComputerHandler
-import io.gatling.interview.http.api.ComputerDatabaseApi
 import io.gatling.interview.repository.ComputerRepository
-
 import cats.effect._
 import cats.implicits._
-import com.twitter.finagle.http.{ Request, Response }
-import com.twitter.finagle.{ Http, ListeningServer, Service }
-import com.twitter.util.Future
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
-import io.finch.ToAsync
-import pureconfig.ConfigSource
-import pureconfig.module.catseffect.syntax.CatsEffectConfigSource
+import io.gatling.interview.command.ComputerCommand
+import io.gatling.interview.console.Console
 
-import java.util.concurrent.{ ExecutorService, Executors }
-
-final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
+final class App[F[_]: ContextShift: Timer](implicit F: ConcurrentEffect[F]) {
 
   private val logger = Slf4jLogger.getLogger[F]
-  private val configSource = ConfigSource.default.at("app")
 
-  def program: F[Unit] =
+  def program(args: List[String]): F[Unit] =
     Blocker[F].use { blocker =>
+      val repository = new ComputerRepository(blocker)
+      val console = new Console[F]
+      val handler = new ComputerHandler(repository, console)
+
       for {
-        config <- configSource.loadF[F, Config](blocker)
-        _ <- setup(config).use { server =>
-          for {
-            _ <- logger.info(
-              s"Server started and bound to: ${server.boundAddress.toString}"
-            )
-            _ <- ConcurrentEffect[F].never.as(())
-          } yield ()
-        }
+        _ <- logger.debug(s"args: ${args.toString}")
+        command <- F.fromOption(
+          ComputerCommand.parse(args),
+          new IllegalArgumentException(s"Cannot parse arguments ${args.toString}")
+        )
+        _ <- handler.handle(command)
       } yield ()
     }
-
-  private def setup(config: Config): Resource[F, ListeningServer] =
-    for {
-      appResources <- appResources(config)
-      computerRepository = new ComputerRepository[F]()
-      computerHandler = new ComputerHandler[F](computerRepository)
-      api = new ComputerDatabaseApi[F](computerHandler)
-      server <- server(
-        api.service,
-        config.server,
-        appResources.serverExecutorService
-      )
-    } yield server
-
-  private def server(
-      service: Service[Request, Response],
-      config: Config.Server,
-      serverExecutorService: ExecutorService
-  ): Resource[F, ListeningServer] =
-    Resource.make(
-      ConcurrentEffect[F].delay {
-        Http.server
-          .withStreaming(enabled = true)
-          .withExecutionOffloaded(serverExecutorService)
-          .serve(s":${config.port.toString}", service)
-      }
-    )(s => Sync[F].defer(implicitly[ToAsync[Future, F]].apply(s.close())))
-
-  private def appResources(config: Config): Resource[F, AppResources] = {
-    for {
-      serverES <- createExecutorService(config.server.threadPoolSize)
-    } yield AppResources(serverES)
-  }
-
-  private def createExecutorService(size: Int): Resource[F, ExecutorService] =
-    Resource.make(
-      ConcurrentEffect[F].delay(Executors.newFixedThreadPool(size))
-    )(es => ConcurrentEffect[F].delay(es.shutdown()))
-
-  private case class AppResources(serverExecutorService: ExecutorService)
 }
