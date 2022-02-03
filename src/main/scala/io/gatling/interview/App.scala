@@ -61,7 +61,7 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
           .withExecutionOffloaded(serverExecutorService)
           .serve(s":${config.port.toString}", service)
       }
-    )(s => Sync[F].suspend(implicitly[ToAsync[Future, F]].apply(s.close())))
+    )(s => Sync[F].defer(implicitly[ToAsync[Future, F]].apply(s.close())))
 
   private def appResources(config: Config): Resource[F, AppResources] = {
     for {
