@@ -19,8 +19,11 @@ final class App[F[_]: ContextShift: Timer](implicit F: ConcurrentEffect[F]) {
       val handler = new ComputerHandler(repository, console)
 
       for {
-        _ <- logger.debug(s"args: $args")
-        command <- F.fromOption(ComputerCommand.parse(args), new IllegalArgumentException(s"Cannot parse arguments $args"))
+        _ <- logger.debug(s"args: ${args.toString}")
+        command <- F.fromOption(
+          ComputerCommand.parse(args),
+          new IllegalArgumentException(s"Cannot parse arguments ${args.toString}")
+        )
         _ <- handler.handle(command)
       } yield ()
     }

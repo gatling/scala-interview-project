@@ -19,11 +19,14 @@ class ComputerRepository[F[_] : ContextShift](blocker: Blocker)(implicit F: Sync
 
   def fetchAll(): F[Seq[Computer]] =
     for {
-      json <- blocker.blockOn(F.delay(Files.readString(ComputersFilePath, ComputersFileCharset)))
+      json <- blocker.blockOn(F.delay {
+        val jsonBytes = Files.readAllBytes(ComputersFilePath)
+        new String(jsonBytes, ComputersFileCharset)
+      })
       computers <- F.fromEither(decode[Seq[Computer]](json))
     } yield computers
 
-  def fetch(id: Long): F[Computer] = F.delay(???)
+  def fetch(id: Long): F[Computer] = ???
 
-  def insert(): F[Unit] = F.delay(???)
+  def insert(): F[Unit] = ???
 }
