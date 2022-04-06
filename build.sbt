@@ -43,9 +43,10 @@ libraryDependencies ++= Seq(
   "io.chrisdavenport" %% "log4cats-slf4j"  % "1.1.1",
   "ch.qos.logback"     % "logback-classic" % logbackClassicVersion % Runtime,
   // Testing
-  "org.scalatest"     %% "scalatest"       % "3.2.11"   % Test,
-  "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test,
-  "org.scalacheck"    %% "scalacheck"      % "1.15.4"  % Test
+  "org.scalatest"     %% "scalatest"                      % "3.2.11"   % Test,
+  "org.scalatestplus" %% "scalacheck-1-15"                % "3.2.11.0" % Test,
+  "org.scalacheck"    %% "scalacheck"                     % "1.15.4"   % Test,
+  "com.codecommit"    %% "cats-effect-testing-scalatest"  % "0.5.4"    % Test
 )
 
 dependencyOverrides ++= Seq(

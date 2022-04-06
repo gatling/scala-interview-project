@@ -14,7 +14,7 @@ final class App[F[_]: ContextShift: Timer](implicit F: ConcurrentEffect[F]) {
 
   def program(args: List[String]): F[Unit] =
     Blocker[F].use { blocker =>
-      val repository = new ComputerRepository(blocker)
+      val repository = new ComputerRepository(ComputerRepository.DefaultComputersFilePath, blocker)
       val console = new Console[F]
       val handler = new ComputerHandler(repository, console)
 
