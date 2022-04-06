@@ -20,6 +20,8 @@ val disabledWarts = Set(
 
 wartremoverWarnings ++= Warts.unsafe.filterNot(disabledWarts.contains)
 
+scalafmtOnCompile := true
+
 scalacOptions ++= Seq(
   "-encoding",
   "UTF-8", // source files are in UTF-8

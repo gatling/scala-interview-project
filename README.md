@@ -17,6 +17,7 @@ Tools:
 - We include the `sbtx` script which can be used to build, run, or execute tests (using the SBT build tool), so you
   don't need to install anything else. For instance, running `./sbtx "testOnly io.gatling.SanityCheckTest"` in the
   project directory should successfully run this one test.
+- Note that your Scala code will be automatically formatted every time SBT compiles it.
 
 If you are new to Scala, here are some resources to help get you started quickly:
 

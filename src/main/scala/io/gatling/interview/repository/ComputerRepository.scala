@@ -15,7 +15,9 @@ object ComputerRepository {
   private val ComputersFileCharset: Charset = StandardCharsets.UTF_8
 }
 
-class ComputerRepository[F[_] : ContextShift](filePath:Path, blocker: Blocker)(implicit F: Sync[F]) {
+class ComputerRepository[F[_]: ContextShift](filePath: Path, blocker: Blocker)(implicit
+    F: Sync[F]
+) {
 
   def fetchAll(): F[Seq[Computer]] =
     for {

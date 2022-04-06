@@ -1,6 +1,6 @@
 package io.gatling.interview
 
-import cats.effect.{ ExitCase, ExitCode, IO, IOApp }
+import cats.effect.{ExitCase, ExitCode, IO, IOApp}
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 
 object Main extends IOApp {
