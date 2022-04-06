@@ -28,5 +28,5 @@ class ComputerRepository[F[_] : ContextShift](blocker: Blocker)(implicit F: Sync
 
   def fetch(id: Long): F[Computer] = ???
 
-  def insert(): F[Unit] = ???
+  def insert(computer: Computer): F[Unit] = ???
 }
