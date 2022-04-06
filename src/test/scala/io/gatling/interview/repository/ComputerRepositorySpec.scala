@@ -19,8 +19,18 @@ class ComputerRepositorySpec extends AsyncFlatSpec with AsyncIOSpec with Matcher
   "ComputerRepository#fetchAll" should "retrieve all computers" in {
     val expectedComputers = Seq(
       Computer(id = 1, name = "MacBook Pro 15.4 inch", introduced = None, discontinued = None),
-      Computer(id = 2, name = "CM-5", introduced = Some(LocalDate.of(1991, Month.JANUARY, 1)), discontinued = None),
-      Computer(id = 3, name = "Apple IIee", introduced = Some(LocalDate.of(2006, Month.JANUARY, 10)), discontinued = Some(LocalDate.of(2010, Month.JANUARY, 10)))
+      Computer(
+        id = 2,
+        name = "CM-5",
+        introduced = Some(LocalDate.of(1991, Month.JANUARY, 1)),
+        discontinued = None
+      ),
+      Computer(
+        id = 3,
+        name = "Apple IIee",
+        introduced = Some(LocalDate.of(2006, Month.JANUARY, 10)),
+        discontinued = Some(LocalDate.of(2010, Month.JANUARY, 10))
+      )
     )
 
     temporaryFileResource("computers/computers.json")

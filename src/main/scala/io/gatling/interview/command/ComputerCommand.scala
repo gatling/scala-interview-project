@@ -4,7 +4,7 @@ object ComputerCommand {
   def parse(args: List[String]): Option[ComputerCommand] =
     args match {
       case "list" :: _ => Some(ListComputers)
-      case _ => None
+      case _           => None
     }
 }
 
