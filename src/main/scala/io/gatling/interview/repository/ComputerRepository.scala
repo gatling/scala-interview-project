@@ -1,7 +1,7 @@
 package io.gatling.interview.repository
 
 import io.gatling.interview.model.Computer
-import cats.effect.{Blocker, ContextShift, Sync}
+import cats.effect.Sync
 import io.gatling.interview.repository.ComputerRepository.ComputersFileCharset
 
 import java.nio.charset.{Charset, StandardCharsets}
@@ -15,16 +15,14 @@ object ComputerRepository {
   private val ComputersFileCharset: Charset = StandardCharsets.UTF_8
 }
 
-class ComputerRepository[F[_]: ContextShift](filePath: Path, blocker: Blocker)(implicit
-    F: Sync[F]
-) {
+class ComputerRepository[F[_]](filePath: Path)(implicit F: Sync[F]) {
 
   def fetchAll(): F[Seq[Computer]] =
     for {
-      json <- blocker.blockOn(F.delay {
+      json <- F.blocking {
         val jsonBytes = Files.readAllBytes(filePath)
         new String(jsonBytes, ComputersFileCharset)
-      })
+      }
       computers <- F.fromEither(decode[Seq[Computer]](json))
     } yield computers
 
