@@ -1,6 +1,6 @@
 package io.gatling.interview.repository
 
-import cats.effect.{Blocker, IO, Resource}
+import cats.effect.{IO, Resource}
 import cats.effect.testing.scalatest.AsyncIOSpec
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -13,8 +13,6 @@ import java.time.{LocalDate, Month}
 import java.util.UUID
 
 class ComputerRepositorySpec extends AsyncFlatSpec with AsyncIOSpec with Matchers {
-
-  private val blocker = Blocker.liftExecutionContext(executionContext)
 
   "ComputerRepository#fetchAll" should "retrieve all computers" in {
     val expectedComputers = Seq(
@@ -35,7 +33,7 @@ class ComputerRepositorySpec extends AsyncFlatSpec with AsyncIOSpec with Matcher
 
     temporaryFileResource("computers/computers.json")
       .use { computersFilePath =>
-        val repository = new ComputerRepository[IO](computersFilePath, blocker)
+        val repository = new ComputerRepository[IO](computersFilePath)
         repository.fetchAll()
       }
       .asserting { fetchedComputers =>
@@ -46,7 +44,7 @@ class ComputerRepositorySpec extends AsyncFlatSpec with AsyncIOSpec with Matcher
   "ComputerRepository#fetchAll" should "fail if the JSON file is invalid" in {
     temporaryFileResource("computers/computers-invalid.json")
       .use { computersFilePath =>
-        val repository = new ComputerRepository[IO](computersFilePath, blocker)
+        val repository = new ComputerRepository[IO](computersFilePath)
         repository.fetchAll()
       }
       .assertThrows[ParsingFailure]

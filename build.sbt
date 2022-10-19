@@ -1,15 +1,11 @@
-import sbt.Global
-
 name := "scala-interview-project"
 
 version := "1.0.0"
 scalaVersion := "2.13.8"
 
 lazy val scalatestVersion = "3.0.5"
-lazy val logbackClassicVersion = "1.2.10"
-lazy val circeVersion = "0.14.1"
-lazy val finchVersion = "0.32.1"
-lazy val pureconfigVersion = "0.14.1"
+lazy val logbackClassicVersion = "1.4.3"
+lazy val circeVersion = "0.14.3"
 
 run / fork := true
 
@@ -31,26 +27,18 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= Seq(
   // Cats / Cats Effect
-  "org.typelevel" %% "cats-core"   % "2.7.0",
-  "org.typelevel" %% "cats-effect" % "2.5.4",
-  "org.typelevel" %% "kittens"     % "2.3.2",
-  "org.typelevel" %% "mouse"       % "1.0.9",
+  "org.typelevel" %% "cats-core"   % "2.8.0",
+  "org.typelevel" %% "cats-effect" % "3.3.14",
   // Circe
   "io.circe" %% "circe-core"    % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser"  % circeVersion,
-  "io.circe" %% "circe-refined" % circeVersion,
-  "io.circe" %% "circe-fs2"     % "0.14.0",
   // Logging
-  "io.chrisdavenport" %% "log4cats-slf4j"  % "1.1.1",
+  "org.typelevel"     %% "log4cats-slf4j"  % "2.3.2",
   "ch.qos.logback"     % "logback-classic" % logbackClassicVersion % Runtime,
   // Testing
-  "org.scalatest"     %% "scalatest"                      % "3.2.11"   % Test,
+  "org.scalatest"     %% "scalatest"                      % "3.2.14"   % Test,
   "org.scalatestplus" %% "scalacheck-1-15"                % "3.2.11.0" % Test,
-  "org.scalacheck"    %% "scalacheck"                     % "1.15.4"   % Test,
-  "com.codecommit"    %% "cats-effect-testing-scalatest"  % "0.5.4"    % Test
-)
-
-dependencyOverrides ++= Seq(
-  "co.fs2" %% "fs2-core" % "2.5.10", // Avoid FS2 3.x, stay on 2.x with cats-effect 2.x
+  "org.scalacheck"    %% "scalacheck"                     % "1.17.0"   % Test,
+  "org.typelevel"     %% "cats-effect-testing-scalatest"  % "1.4.0"    % Test
 )
