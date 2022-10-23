@@ -1,11 +1,12 @@
 # Gatling Corp Scala interview project
 
-Thank you for applying to Gatling Corp. We will use these small exercises in our hiring process.
+Thank you for applying to Gatling Corp. We use these small exercises in our hiring process.
 
 Please code as you would do in your everyday work.
 
-Please **do not open a pull request with your solution**. We will simply ask you to share access to your repository
-before the interview.
+Please **do NOT fork this repository**.
+You should [use it as template (the green button)](https://github.com/gatling/scala-interview-project/generate) ([GitHub documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)).
+Note: if you choose to make your repository private, add us as collaborators.
 
 ## Getting started
 
@@ -45,7 +46,7 @@ concat(None, Some("bar"))        // None
 concat(None, None)               // None
 ```
 
-You can solve this in the file [`src/test/scala/io/gatling/ConcatSpec.scala`](./src/test/io/gatling/ConcatSpec.scala),
+You can solve this in the file [`src/test/scala/io/gatling/ConcatSpec.scala`](./src/test/scala/io/gatling/ConcatSpec.scala),
 and run it in IntelliJ, or in your console:
 
 ```console
