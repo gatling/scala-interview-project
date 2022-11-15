@@ -56,7 +56,8 @@ and run it in IntelliJ, or in your console:
 ## Computer Database CLI
 
 The major library you'll need to use is [cats effect](https://typelevel.org/cats-effect/docs/2.x/getting-started). Note
-that we currently use cats effect 2, not yet the version 3.
+that we currently use cats effect 2, not yet the version 3.  
+New to effect systems? Take a look at this [talk](https://www.youtube.com/watch?v=qgfCmQ-2tW0).
 
 You can find here the basis of the project. Feel free to modify the architecture to your taste.
 
