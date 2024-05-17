@@ -5,12 +5,14 @@ import cats.effect._
 import org.http4s.implicits._
 import org.http4s.ember.server._
 import com.comcast.ip4s._
+import io.gatling.interview.repository.ComputerRepository
 import io.gatling.interview.webapp.Routes
 
 import scala.concurrent.duration._
 
 object Main extends IOApp.Simple {
-  val run: IO[Unit] = Routes.all
+  val run: IO[Unit] = Routes
+    .all(ComputerRepository[IO]())
     .flatMap { routes =>
       val thePort = port"9000"
       val theHost = host"localhost"
