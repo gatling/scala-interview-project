@@ -7,6 +7,8 @@ import org.http4s.implicits._
 import org.http4s.ember.server._
 import org.http4s._
 import com.comcast.ip4s._
+import org.http4s.dsl.Http4sDsl
+import org.http4s.headers.Location
 import smithy4s.http4s.SimpleRestJsonBuilder
 import scala.concurrent.duration._
 
@@ -26,7 +28,19 @@ object Routes {
   private val docs: HttpRoutes[IO] =
     smithy4s.http4s.swagger.docs[IO](HelloWorldEndpoints)
 
-  val all: Resource[IO, HttpRoutes[IO]] = example.map(_ <+> docs)
+  private val main: HttpRoutes[IO] = {
+    val dsl = new Http4sDsl[IO] {}
+    import dsl._
+    HttpRoutes.of { case GET -> Root =>
+      IO.pure(
+        Response[IO]()
+          .withStatus(Found)
+          .withHeaders(Location(uri"/docs"))
+      )
+    }
+  }
+
+  val all: Resource[IO, HttpRoutes[IO]] = example.map(_ <+> docs <+> main)
 }
 
 object Main extends IOApp.Simple {
