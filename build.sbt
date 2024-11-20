@@ -34,7 +34,7 @@ lazy val root = (project in file("."))
       // scope should be "compile-internal" but IntelliJ does not understand it https://youtrack.jetbrains.com/issue/SCL-18284
       "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.27.6" % "provided",
       // Testing
-      "org.scalatest"                %% "scalatest"                      % "3.2.18"   % Test,
+      "org.scalatest"                %% "scalatest"                      % "3.2.19"   % Test,
       "org.typelevel"                %% "cats-effect-testing-scalatest"  % "1.5.0"    % Test
     )
   )
