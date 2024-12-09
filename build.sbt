@@ -9,7 +9,7 @@ val disabledWarts = Set(
   Wart.TripleQuestionMark,
   Wart.DefaultArguments, // smithy
   Wart.StringPlusAny, // nice in string interpolation
-  Wart.OptionPartial, // macro from smithy
+  Wart.OptionPartial // macro from smithy
 )
 
 lazy val root = (project in file("."))
@@ -27,14 +27,14 @@ lazy val root = (project in file("."))
       "-Xfatal-warnings" // turn compiler warnings into errors
     ),
     libraryDependencies ++= Seq(
-      "com.disneystreaming.smithy4s" %% "smithy4s-http4s"                % smithy4sVersion.value,
-      "com.disneystreaming.smithy4s" %% "smithy4s-http4s-swagger"        % smithy4sVersion.value,
-      "org.http4s"                   %% "http4s-ember-server"            % "0.23.29",
+      "com.disneystreaming.smithy4s" %% "smithy4s-http4s" % smithy4sVersion.value,
+      "com.disneystreaming.smithy4s" %% "smithy4s-http4s-swagger" % smithy4sVersion.value,
+      "org.http4s" %% "http4s-ember-server" % "0.23.30",
       // same version as in smithy4s
       // scope should be "compile-internal" but IntelliJ does not understand it https://youtrack.jetbrains.com/issue/SCL-18284
       "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.31.3" % "provided",
       // Testing
-      "org.scalatest"                %% "scalatest"                      % "3.2.19"   % Test,
-      "org.typelevel"                %% "cats-effect-testing-scalatest"  % "1.5.0"    % Test
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test,
+      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.5.0" % Test
     )
   )
