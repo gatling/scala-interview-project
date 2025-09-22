@@ -35,6 +35,6 @@ lazy val root = (project in file("."))
       "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.37.11" % "provided",
       // Testing
       "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.6.0" % Test
+      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test
     )
   )
