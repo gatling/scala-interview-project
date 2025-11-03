@@ -29,7 +29,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "com.disneystreaming.smithy4s" %% "smithy4s-http4s" % smithy4sVersion.value,
       "com.disneystreaming.smithy4s" %% "smithy4s-http4s-swagger" % smithy4sVersion.value,
-      "org.http4s" %% "http4s-ember-server" % "0.23.32",
+      "org.http4s" %% "http4s-ember-server" % "0.23.33",
       // same version as in smithy4s
       // scope should be "compile-internal" but IntelliJ does not understand it https://youtrack.jetbrains.com/issue/SCL-18284
       "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.38.3" % "provided",
