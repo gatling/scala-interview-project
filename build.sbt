@@ -32,7 +32,7 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-ember-server" % "0.23.33",
       // same version as in smithy4s
       // scope should be "compile-internal" but IntelliJ does not understand it https://youtrack.jetbrains.com/issue/SCL-18284
-      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.38.3" % "provided",
+      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "2.38.4" % "provided",
       // Testing
       "org.scalatest" %% "scalatest" % "3.2.19" % Test,
       "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test
